@@ -4,10 +4,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import "./Header.css";
 import { useStateValue } from './StateProvider';
+import { auth } from './firebase';
 
 function Header() {
-    const [{basket}, dispatch] = useStateValue();
-
+    const [{ basket, user }, dispatch] = useStateValue();
+    const handleAuthentication = ()=>{
+        if(user){
+            auth.signOut()
+        }
+    }
     return (<div className='header'>
         <Link to="/">
             <img className='header__logo' src='https://pngimg.com/uploads/amazon/amazon_PNG11.png' />
@@ -20,10 +25,12 @@ function Header() {
             {/* search logo */}
         </div>
         <div className="header__nav">
-            <div className="header__navOption">
-                <span className="header__optionLine1">Hello Guest</span>
-                <span className="header__optionLine2">Sign In</span>
-            </div>
+            <Link to={!user && "/login"}>
+                <div className="header__navOption" onClick={handleAuthentication}>
+                    <span className="header__optionLine1">Hello {user ? user.email : "Guest"} </span>
+                    <span className="header__optionLine2">{user ? 'Sign Out' : 'Sign In'}</span>
+                </div>
+            </Link>
             <div className="header__navOption">
                 <span className="header__optionLine1">Returns</span>
                 <span className="header__optionLine2">& Orders</span>
