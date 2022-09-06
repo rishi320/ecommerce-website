@@ -1,5 +1,7 @@
 {
   "projects": {
+    "prod": "clone-70520",
     "default": "clone-70520"
-  }
+  },
+  "targets": {}
 }
